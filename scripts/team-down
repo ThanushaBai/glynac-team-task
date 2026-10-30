@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if [[ "$1" != TEAM=* ]]; then
+  echo "Error: Usage is ./scripts/team-down TEAM=lab-team-03"
+  exit 1
+fi
+
+TEAM_NAME="${1#TEAM=}"
+export TF_VAR_team_name="$TEAM_NAME"
+
+echo "🔥 Destroying $TEAM_NAME..."
+
+# Run Terraform to destroy everything
+cd terraform
+terraform destroy -var="team_name=$TEAM_NAME" -auto-approve
+cd ..
+
+echo "✅ Team $TEAM_NAME destroyed."

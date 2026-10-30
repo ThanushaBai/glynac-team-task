@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if [[ "$1" != TEAM=* ]]; then
+  echo "Error: Usage is ./scripts/team-up TEAM=lab-team-03"
+  exit 1
+fi
+
+TEAM_NAME="${1#TEAM=}"
+export TF_VAR_team_name="$TEAM_NAME"
+
+echo "🚀 Starting creation for $TEAM_NAME..."
+
+# Run Terraform to create DB, S3, Nomad Namespace
+cd terraform
+terraform init -upgrade
+terraform apply -var="team_name=$TEAM_NAME" -auto-approve
+cd ..
+
+echo "✅ Team $TEAM_NAME created successfully!"
