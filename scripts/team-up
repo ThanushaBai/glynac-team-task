@@ -17,4 +17,7 @@ terraform init -upgrade
 terraform apply -var="team_name=$TEAM_NAME" -auto-approve
 cd ..
 
+# Run Ansible to configure the VM
+echo "-> Running Ansible configuration..."
+ansible-playbook ansible/configure-vm.yml -e "team_name=$TEAM_NAME"
 echo "✅ Team $TEAM_NAME created successfully!"

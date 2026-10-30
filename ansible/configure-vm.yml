@@ -1,0 +1,15 @@
+---
+- name: Configure Team VM Software
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: Create a team configuration file on the VM
+      copy:
+        dest: "/tmp/{{ team_name }}-setup.txt"
+        content: |
+          Team: {{ team_name }}
+          Status: Configured successfully by Ansible.
+          
+    - name: Print success message
+      debug:
+        msg: "Ansible successfully configured the VM for {{ team_name }}"

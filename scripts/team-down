@@ -16,4 +16,7 @@ cd terraform
 terraform destroy -var="team_name=$TEAM_NAME" -auto-approve
 cd ..
 
+# Remove the Ansible-configured file
+echo "-> Removing Ansible configuration..."
+rm -f "/tmp/${TEAM_NAME}-setup.txt"
 echo "✅ Team $TEAM_NAME destroyed."
