@@ -39,7 +39,7 @@ resource "nomad_namespace" "team_ns" {
   description = "Namespace for ${var.team_name}"
 }
 
-# 3. S3 Bucket (MinIO)
+# 3. S3 Bucket (Silo)
 provider "aws" {
   region                      = "us-east-1"
   access_key                  = "admin"
