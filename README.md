@@ -23,7 +23,7 @@ Run the wrapper script with the TEAM variable:
 
 ## Architecture
 - Database & User: Managed via Terraform postgresql provider.
-- Storage: Managed via Terraform aws provider (pointed at local MinIO).
+- Storage: Managed via Terraform aws provider (pointed at local S3-compatible storage, e.g., Silo / MinIO).
 - Nomad Namespace: Managed via Terraform nomad provider.
 - VM: Placeholder resource managed via Terraform null_resource.
 - VM Software Configuration: Managed via Ansible playbook.
