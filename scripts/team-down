@@ -1,22 +1,28 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-if [[ "$1" != TEAM=* ]]; then
-  echo "Error: Usage is ./scripts/team-down TEAM=lab-team-03"
+PREFIX=""
+COUNT=1
+
+for arg in "$@"; do
+  case "$arg" in
+    PREFIX=*) PREFIX="${arg#PREFIX=}" ;;
+    COUNT=*)  COUNT="${arg#COUNT=}" ;;
+  esac
+done
+
+if [[ -z "$PREFIX" ]]; then
+  echo "Error: Usage is ./scripts/team-down PREFIX=lab-team COUNT=3"
   exit 1
 fi
 
-TEAM_NAME="${1#TEAM=}"
-export TF_VAR_team_name="$TEAM_NAME"
+export TF_VAR_team_prefix="$PREFIX"
+export TF_VAR_team_count="$COUNT"
 
-echo "🔥 Destroying $TEAM_NAME..."
+echo "🔥 Destroying $COUNT environment(s) with prefix '$PREFIX'..."
 
-# Run Terraform to destroy everything
 cd terraform
-terraform destroy -var="team_name=$TEAM_NAME" -auto-approve
+terraform destroy -var="team_prefix=$PREFIX" -var="team_count=$COUNT" -auto-approve
 cd ..
 
-# Remove the Ansible-configured file
-echo "-> Removing Ansible configuration..."
-rm -f "/tmp/${TEAM_NAME}-setup.txt"
-echo "✅ Team $TEAM_NAME destroyed."
+echo "✅ Environments destroyed."
