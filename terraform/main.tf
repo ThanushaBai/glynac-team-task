@@ -1,6 +1,5 @@
 terraform {
   required_providers {
-    postgresql = { source = "cyrilgdn/postgresql" }
     nomad      = { source = "hashicorp/nomad" }
     aws        = { source = "hashicorp/aws" }
   }
@@ -13,27 +12,6 @@ variable "team_prefix" {
 variable "team_count" {
   type = number
   default = 1
-}
-
-# 1. Postgres Database & User
-provider "postgresql" {
-  host     = "localhost"
-  port     = 5432
-  username = "admin"
-  password = "password"
-  sslmode  = "disable"
-}
-
-resource "postgresql_database" "team_db" {
-  count = var.team_count
-  name = "${var.team_prefix}-${count.index + 1}-db"
-}
-
-resource "postgresql_role" "team_user" {
-  count = var.team_count
-  name     = "${var.team_prefix}-${count.index + 1}-user"
-  login    = true
-  password = "secretpassword"
 }
 
 # 2. Nomad Namespace

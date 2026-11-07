@@ -2,7 +2,7 @@
 
 ## Overview
 This repository contains the automation to provision and de-provision a complete sandbox environment for a team. 
-It uses Terraform to create a Database, Database User, Silo S3 Storage Bucket, Nomad Namespace, and a VM, and Ansible to configure the VM.
+It uses Terraform to create a Silo S3 Storage Bucket, Nomad Namespace, and a VM, and Ansible to configure the VM.
 
 ## Features
 - **Grouped Provisioning:** Create multiple team environments at once using a prefix and a count.
@@ -14,7 +14,6 @@ It uses Terraform to create a Database, Database User, Silo S3 Storage Bucket, N
 - Terraform installed
 - Ansible installed
 - Docker running (Silo on port 9000, Nomad on port 4646)
-- PostgreSQL running locally
 
 ## How to Use
 
@@ -33,7 +32,6 @@ To destroy a whole group of environments:
     ./scripts/team-down PREFIX=lab-group COUNT=3
 
 ## Architecture
-- **Database & User:** Managed via Terraform `postgresql` provider.
 - **Storage:** Managed via Terraform `aws` provider (pointed at local S3-compatible storage, e.g., Silo / MinIO).
 - **Nomad Namespace:** Managed via Terraform `nomad` provider.
 - **VM:** Placeholder resource managed via Terraform `null_resource`, configured by Ansible.

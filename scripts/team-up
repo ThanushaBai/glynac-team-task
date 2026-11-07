@@ -1,21 +1,12 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-PREFIX=""
-COUNT=1
-
-for arg in "$@"; do
-  case "$arg" in
-    PREFIX=*) PREFIX="${arg#PREFIX=}" ;;
-    COUNT=*)  COUNT="${arg#COUNT=}" ;;
-  esac
-done
-
-if [[ -z "$PREFIX" ]]; then
+if [[ "$1" != PREFIX=* ]]; then
   echo "Error: Usage is ./scripts/team-up PREFIX=lab-team COUNT=3"
   exit 1
 fi
-
+PREFIX="${1#PREFIX=}"
+COUNT="${2#COUNT=}"
 export TF_VAR_team_prefix="$PREFIX"
 export TF_VAR_team_count="$COUNT"
 
